@@ -15,7 +15,7 @@ connectDB();
 
 // routes
 app.use("/api/authentication", require("./src/routes/authenticationRoutes"));
-app.use("/api/product", require("./src/routes/productRoutes"));
+app.use("/api/products", require("./src/routes/productRoutes"));
 app.use("/api/users", require("./src/routes/userRoutes"));
 app.use("/api/orders", require("./src/routes/orderRoutes"));
 app.use("/api/categories", require("./src/routes/categoryRoutes"));
