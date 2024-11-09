@@ -21,6 +21,8 @@ app.use("/api/orders", require("./src/routes/orderRoutes"));
 app.use("/api/categories", require("./src/routes/categoryRoutes"));
 app.use("/api/cart", require("./src/routes/cartRoutes"));
 
+console.log("Registered routes:", app._router.stack.map(r => r.route?.path).filter(Boolean));
+
 // middleware errors management
 app.get("/", (req, res) => {
     res.send("Server is working");

@@ -19,6 +19,18 @@ exports.obtainCart = async(req, res) => {
     }
 };
 
+exports.getAllCarts = async(req, res) => {
+    try {
+        const carts = await Cart.find()
+            .populate("user")
+            .populate("products.product");
+        res.status(200).json(carts);
+    } catch (error) {
+        res.status(500).json({message: "Error when obtaining carts", error: error.message});
+    }
+};
+
+
 exports.updateCart = async(req, res) => {
     try {
         const updatedCart = await Cart.findByIdAndUpdate(req.params.id, req.body, {new: true});

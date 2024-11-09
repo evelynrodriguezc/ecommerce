@@ -28,6 +28,20 @@ exports.updateOrder = async(req, res) => {
     }
 };
 
+exports.getOrderById = async(req, res) => {
+    try {
+        const order = await Order.findById(req.params.id)
+            .populate('user')
+            .populate('products.product');
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+        res.status(200).json(order);
+    } catch (error) {
+        res.status(500).json({message: "Error when obtaining order", error: error.message});
+    }
+};
+
 exports.deleteOrder = async(req, res) => {
     try {
         await Order.findByIdAndDelete(req.params.id);
