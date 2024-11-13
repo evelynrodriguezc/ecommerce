@@ -19,21 +19,22 @@ exports.obtainCart = async(req, res) => {
     }
 };
 
-exports.getAllCarts = async(req, res) => {
+exports.obtainCartbyId = async(req, res) => {
     try {
-        const carts = await Cart.find()
-            .populate("user")
-            .populate("products.product");
-        res.status(200).json(carts);
+        const cart = await Cart.findById(req.params.id);
+        if(!cart){
+            return res.status(404).json({message: "Cart not found"});
+        }
+        res.status(200).json(cart);
     } catch (error) {
-        res.status(500).json({message: "Error when obtaining carts", error: error.message});
+        res.status(500).json({message: "Error obtaining cart at server", error: error.message});
     }
-};
-
+}
 
 exports.updateCart = async(req, res) => {
     try {
         const updatedCart = await Cart.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        console.log(updatedCart);
         res.status(200).json(updatedCart);
     } catch (error) {
         res.status(500).json({message: "Error when updating cart", error: error.message});

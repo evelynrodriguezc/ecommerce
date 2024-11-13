@@ -3,9 +3,10 @@ const router = express.Router();
 const cartController = require("../controllers/cartController");
 
 router.post("/", cartController.createCart);
-router.get("/all", cartController.getAllCarts);
 router.get("/:userId", cartController.obtainCart);
-router.put("/:id", cartController.updateCart);
-router.delete("/:id", cartController.deleteCart);
+router.get("/:userId/:id", cartController.obtainCartbyId);
+router.put("/:userId/:id", cartController.updateCart);
+router.delete("/:userId/:id", cartController.deleteCart);
 
 module.exports = router;
+
