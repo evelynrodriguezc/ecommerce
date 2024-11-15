@@ -4,6 +4,12 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./src/config/dataBase");
 const pool = require("./src/config/dataBasePostgres");
+//const connetDBPostgres = require("./src/config/dataBasePostgres")
+const middlewareAuthentication = require("./src/middleware/middlewareAuthentication");
+
+app.get("api/user/profile", middlewareAuthentication, (req, res) => {
+    res.status(200).json({ message: "Route not found"})
+});
 
 dotenv.config();
 
@@ -13,6 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 connectDB();
+connectDBPostgres();
 
 // routes
 app.use("/api/products", require("./src/routes/productRoutes"));

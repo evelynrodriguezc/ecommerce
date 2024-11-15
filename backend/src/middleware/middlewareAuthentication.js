@@ -12,9 +12,9 @@ const middlewareAutenthication = (req, res, next) => {
         if(error){
             return res.status(401).json({ message: "Invalid Token", error: error.message })
         }
-        req.user = decoded 
+        req.user = decoded
         next()
     })
 }
 
-module.exports = middlewareAutenthication
+module.exports = middlewareAutenthication;
