@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const middlewareAutenthication = require("../middleware/middlewareAuthentication");
 
 // CRUD routes
-router.post("/", userController.createUser);
-router.get("/", userController.obtainUsers);
-router.get("/:id", userController.getUserById);
-router.put("/:id", userController.updateUser);
-router.delete("/:id", userController.deleteUser);
+router.post("/", userController.registerUser);
+router.post("/", userController.loginUser);
+router.get("/profile", middlewareAutenthication, userController.obtainUserProfile)
 
 module.exports = router;

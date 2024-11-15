@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
 
-exports.createUser = async(req, res) => {
+exports.registerUser = async(req, res) => {
     const { name, email, password, address, phoneNumber, role} = req.body
     try {
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -17,7 +17,7 @@ exports.createUser = async(req, res) => {
     }
 };
 
-exports.login = async (req, res) => {
+exports.loginUser = async (req, res) => {
     const { email, password } = req.body
 
     try {
@@ -36,45 +36,21 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ id: user.id, rol: user.rol }, process.env.JWT_SECRET, { expiresIn: "1h" })
         res.status(200).json({ message: "Login successful", token})
     } catch (error) {
-        res.status(500).join({ message: "Error creating the user", error: error.message})
+        res.status(500).join({ message: "Error login user", error: error.message})
     }
 };
 
-exports.obtainUsers = async(req, res) => {
+exports.obtainUserProfile = async (req, res) => {
+    const userId = req.user.id;
     try {
-        const users = await User.find();
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(500).json({message: "Error when obtaining users", error: error.message});
-    }
-};
+        const result = await pool.query
+        ("SELECT ID, name, email, address, phoneNumber, role FROM users where id = $1", [userId])
 
-exports.getUserById = async(req, res) => {
-    try {
-        const user = await User.findById(req.params.id);
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
+        if (result.rows.length === 0){
+            return res.status(400).json({ message: "User not found"})
         }
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({message: "Error when obtaining user", error: error.message});
+        res.status(500).json({ user: result.row[0]});
+    } catch (error){
+        res.status(500).json({ message: "Error obtaining the user profile", error: error.message})
     }
-};
-
-exports.updateUser = async(req, res) => {
-    try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true});
-        res.status(200).json(updatedUser);
-    } catch (error) {
-        res.status(500).json({message: "Error when updating user", error: error.message});
-    }
-};
-
-exports.deleteUser = async(req, res) => {
-    try {
-        await User.findByIdAndDelete(req.params.id);
-        res.status(200).json({message: "User deleted successfully"});
-    } catch (error) {
-        res.status(500).json({message: "Error when deleting user", error: error.message});
-    }
-};
+}

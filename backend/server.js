@@ -3,6 +3,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./src/config/dataBase");
+const pool = require("./src/config/dataBasePostgres");
 
 dotenv.config();
 
@@ -39,8 +40,20 @@ app.use((error, req, res, next) => {
 
 const PORT = 3001;
 const server = app.listen(PORT, () => {
-    console.log(`Server running at: ${PORT}`);
+    console.log(`\nMongoDB Server running at: ${PORT}`);
 });
+
+const PORTPG = 5432;
+pool.query('SELECT NOW()', (err, res) => {
+    if (err) {
+    console.error("Error connecting to the PG database:", err);
+    } else {
+    console.log(`\nPGDB Server running at: ${PORTPG}`);
+    console.log("PGDB connected");
+    }
+    pool.end();
+});
+
 
 // Handle shutdown gracefully
 process.on('SIGTERM', () => {
