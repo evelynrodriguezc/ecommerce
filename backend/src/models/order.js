@@ -10,7 +10,7 @@ const OrderSchema = new mongoose.Schema({
     }],
     total: {type: Number, required: true},
     status: {type: String, enum: ["pending", "shipped", "delivered", "canceled"], default: "pending"},
-    dateOfCreation: {type: Date, default: Date.now()},
+    dateOfCreation: {type: Date, default: Date.now},
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

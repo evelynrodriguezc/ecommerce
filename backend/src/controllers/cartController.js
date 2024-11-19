@@ -17,7 +17,7 @@ exports.createCart = async(req, res) => {
 exports.obtainCart = async(req, res) => {
     const { userId } = req.params
     try {
-        const cart = await Cart.findOne({ userId: userId}).populate("user").populate("products.product");
+        const cart = await Cart.findOne({ userId: userId}).populate("products.product");
         if(!cart){
             return res.status(404).json({ message: "Cart not found" })
         }
@@ -55,7 +55,7 @@ exports.deleteCart = async(req, res) => {
         )
         if(!deletedCart){
             return res.status(404).json({ message: "Cart not found" });
-        }
+        };
         res.status(200).json({message: "Empty cart", cart: deletedCart });
     } catch (error) {
         res.status(500).json({message: "Error when deleting cart", error: error.message});

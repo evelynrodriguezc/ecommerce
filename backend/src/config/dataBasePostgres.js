@@ -1,4 +1,4 @@
-const { Pool } = require("pg")
+const { Pool } = require("pg");
 
 const pool = new Pool({
     user: "admin",
@@ -8,4 +8,13 @@ const pool = new Pool({
     port: 5432,
 });
 
-module.exports = pool;
+const connectDBPostgres = async () => {
+    try {
+        await pool.connect();
+        console.log("PGSQL connected");
+    } catch (error) {
+        console.error("Error connecting to the PGSQL database:", error.message);
+    }
+};
+
+module.exports = { connectDBPostgres, pool};
