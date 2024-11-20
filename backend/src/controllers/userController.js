@@ -1,4 +1,4 @@
-const { pool } = require("../config/dataBasePostgres");
+const pool = require("../config/dataBasePostgres");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 

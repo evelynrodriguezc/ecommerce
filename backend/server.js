@@ -3,7 +3,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./src/config/dataBase");
-const { connectDBPostgres } = require("./src/config/dataBasePostgres");
+const pool = require("./src/config/dataBasePostgres");
 const middlewareAuthentication = require("./src/middleware/middlewareAuthentication");
 
 dotenv.config();
@@ -16,7 +16,8 @@ app.use(express.json());
 app.use(cors());
 
 connectDB();
-connectDBPostgres();
+pool.connect()
+    .catch(err => console.error('Error connecting to PostgreSQL:', err.message));
 
 // routes
 app.use("/api/products", require("./src/routes/productRoutes"));

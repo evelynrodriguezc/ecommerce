@@ -8,13 +8,9 @@ const pool = new Pool({
     port: 5432,
 });
 
-const connectDBPostgres = async () => {
-    try {
-        await pool.connect();
-        console.log("PGSQL connected");
-    } catch (error) {
-        console.error("Error connecting to the PGSQL database:", error.message);
-    }
-};
+pool.connect()
+    .then(() => console.log("PostgreSQL connected"))
+    .catch((err) => console.error("Error connecting to PostgreSQL:", err.message));
 
-module.exports = { connectDBPostgres, pool};
+
+module.exports = pool;
