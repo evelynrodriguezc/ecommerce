@@ -1,6 +1,6 @@
 const Order = require("../models/order");
 const Cart = require("../models/cart");
-const { pool } = require("../models/order");
+const { pool } = require("../config/dataBasePostgres");
 
 exports.createOrderfromCart = async(req, res) => {
     const { userId } = req.params;

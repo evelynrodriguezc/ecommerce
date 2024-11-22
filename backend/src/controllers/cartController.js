@@ -1,13 +1,13 @@
 const Cart = require("../models/cart");
 const Product = require("../models/product");
-const pool = require("../config/dataBasePostgres");
+const {pool} = require("../config/dataBasePostgres");
 
 // Create a cart
 exports.createCart = async(req, res) => {
-    const { user_id, products } = req.body
+    const { userId, products } = req.body
     try {
         // Verify if the user exists
-        const userResult = await pool.query('SELECT * FROM users WHERE id = $1', [user_id]);
+        const userResult = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
         if(userResult.rowCount === 0){
             return res.status(404).json({ message: "User not found in PGSQL" });
         }
@@ -19,14 +19,14 @@ exports.createCart = async(req, res) => {
         }
 
         // Verify if there is already a cart for the user
-        const existingCart = await Cart.findOne({ user_id });
+        const existingCart = await Cart.findOne({ userId });
         if(existingCart){
             return res.status(400).json({ message: "Cart already exists" });
         }
 
         // Create the cart
         const newCart = new Cart({
-            user_id,
+            userId,
             products
         });
         await newCart.save();
@@ -39,9 +39,9 @@ exports.createCart = async(req, res) => {
 
 // Obtain a cart
 exports.obtainCart = async(req, res) => {
-    const { user_id } = req.params
+    const { userId } = req.params
     try {
-        const cart = await Cart.findOne({ user_id }).populate("products.product");
+        const cart = await Cart.findOne({ userId }).populate("products.product");
         if(!cart){
             return res.status(404).json({ message: "Cart not found" })
         }
@@ -53,10 +53,10 @@ exports.obtainCart = async(req, res) => {
 
 // Update a cart
 exports.updateCart = async(req, res) => {
-    const { user_id, products } = req.body
+    const { userId, products } = req.body
     try {
         const cart = await Cart.findOneAndUpdate(
-            { user_id },
+            { userId },
             { products },
             { new: true }
         );
@@ -71,9 +71,9 @@ exports.updateCart = async(req, res) => {
 
 // Delete cart
 exports.deleteCart = async(req, res) => {
-    const { user_id } = req.params
+    const { userId } = req.params
     try {
-        const cart = await Cart.findOneAndDelete({ user_id });
+        const cart = await Cart.findOneAndDelete({ userId });
         if(!cart){
             return res.status(404).json({ message: "Cart not found" });
         }

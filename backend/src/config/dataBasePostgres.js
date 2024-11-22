@@ -8,9 +8,13 @@ const pool = new Pool({
     port: 5432,
 });
 
-pool.connect()
-    .then(() => console.log("PostgreSQL connected"))
-    .catch((err) => console.error("Error connecting to PostgreSQL:", err.message));
+const connectBDPG = async () => {
+    try {
+        await pool.connect();
+        console.log("Conexión exitosa a PostgreSQL");
+    } catch (error) {
+        console.error("Error al conectar a PostgreSQL:", error.message);
+    }
+};
 
-
-module.exports = pool;
+module.exports = { connectBDPG, pool };
