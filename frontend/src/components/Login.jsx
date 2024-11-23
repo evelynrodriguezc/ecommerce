@@ -1,48 +1,67 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../services/API";
+import apiClient from "../API/axiosConfig";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        setError("");
         try {
-            const response = await API.post("/auth/login", { email, password });
-            const { token } = response.data;
-            localStorage.setItem("token", token);
-            alert("Login successful");
-        } catch (error) {
-            alert("Login failed");
-            console.error(error);
+            const response = await apiClient.post("/users/loginUser", {
+                email: email,
+                password,
+            });
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem(
+                "user",
+                JSON.stringify({ name: response.data.name})
+            );
+            navigate("/products");
+        } catch (err) {
+            if (err.response) {
+                setError(err.response.data.message || "An error occurred while logging in");
+            } else {
+                setError("Error connecting to the server");
+            }
         }
-    }
+    };
+
     return (
-        <form onSubmit={handleLogin}>
-            <h2>Login</h2>
-            <div>
-                <label>Email: </label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-            </div>
-            <div>
-                <label>Password: </label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-            </div>
-            <button type="submit">Login</button>
-        </form>
-    );
-}
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Login</h2>
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            <form onSubmit={handleLogin}>
+            <input
+                type="email"
+                placeholder="Correo electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+                type="primary"
+                className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+            >
+                Login
+            </button>
+            </form>
+        </div>
+        </div>
+    )
+
+};
 
 export default Login;
