@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Full Stack E-commerce Project
 
 A modern e-commerce application built with Node.js, React, and PostgreSQL, featuring user authentication, product management, shopping cart functionality, and order processing.
