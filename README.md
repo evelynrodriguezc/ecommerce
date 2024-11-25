@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Full Stack E-commerce Project
 
 A modern e-commerce application built with Node.js, React, and PostgreSQL, featuring user authentication, product management, shopping cart functionality, and order processing.
@@ -170,3 +171,8 @@ frontend/
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+=======
+# ecommerce
+
+project using mongoDB, PostgreSQL, React.js, Node.js and Express
+>>>>>>> ea25470b24552a7a48a2d073569fbbb32cd80b38
