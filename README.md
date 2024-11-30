@@ -1,6 +1,6 @@
 # Full Stack E-commerce Project
 
-A modern e-commerce application built with Node.js, React, and PostgreSQL, featuring user authentication, product management, shopping cart functionality, and order processing.
+A modern e-commerce application built with Node.js, React, MongoDB and PostgreSQL, featuring user authentication, product management, shopping cart functionality, and order processing.
 
 ## 📋 Features
 
@@ -16,6 +16,7 @@ A modern e-commerce application built with Node.js, React, and PostgreSQL, featu
 ### Backend
 - Node.js
 - Express.js
+- MongoDB
 - PostgreSQL
 - Authentication middleware
 - MVC architecture
@@ -23,7 +24,7 @@ A modern e-commerce application built with Node.js, React, and PostgreSQL, featu
 ### Frontend
 - React.js
 - Axios for API calls
-- CSS for styling
+- TailwindCSS for styling
 - React Router for navigation
 
 ## 🚀 Installation
